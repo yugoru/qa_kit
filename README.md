@@ -25,11 +25,11 @@
 
 QA Kit — учебный стенд, который используется в полном курсе подготовки Middle QA.
 
-### 🇷🇺 Оплата в рублях
+### 🇷🇺 Курс с оплатой в рублях
 
 [https://ermita.one/courses/inzhener-po-testirovaniju-middle/](https://ermita.one/courses/inzhener-po-testirovaniju-middle/)
 
-### 🇪🇺 Оплата в евро
+### 🇪🇺 Курс с оплатой в евро
 
 [https://gradebuilder.tech/courses/inzhener-po-testirovaniju-middle/](https://gradebuilder.tech/courses/inzhener-po-testirovaniju-middle/)
 
