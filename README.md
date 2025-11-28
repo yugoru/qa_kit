@@ -41,36 +41,7 @@ QA Kit — учебный стенд, который используется в
 
 # 🚀 Быстрый старт
 
-## 1. Установите Docker Desktop
-[https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
-
-## 2. Клонируйте репозиторий
-```
-git clone https://github.com/<your-username>/qa_kit.git
-cd qa_kit
-```
-
-## 3. Запуск лаборатории
-```
-docker compose up --build
-```
-
-## 4. Откройте портал
-[http://localhost:8090](http://localhost:8090)
-
-Портал содержит ссылки на все доступные сервисы:
-
-* Swagger (REST API)
-* GraphQL Playground
-* gRPC proto docs
-* Health checks
-* Kibana
-* Grafana
-* Jaeger
-* Kafka UI (когда будет добавлен)
-* Playground-frontend
-
----
+[Инструкция](https://github.com/yugoru/qa_kit/blob/main/docs/guides/start.md)
 
 # 🧩 Структура проекта
 
