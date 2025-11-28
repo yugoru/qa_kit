@@ -4,6 +4,7 @@ import json
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.exc import OperationalError
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from .models import Base, Order
 from .database import engine, SessionLocal
@@ -27,6 +28,9 @@ for _ in range(10):
         break
     except OperationalError:
         time.sleep(2)
+
+
+Instrumentator().instrument(app).expose(app)
 
 
 @app.get("/health", response_model=HealthResponse)
@@ -120,8 +124,8 @@ async def orders_ws(websocket: WebSocket):
                                 "action": "change_status",
                                 "error": "order_id must be integer",
                             }
+                            )
                         )
-                    )
                     continue
 
                 db = SessionLocal()

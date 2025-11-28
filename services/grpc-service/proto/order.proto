@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package qa;
+
+service OrderService {
+  rpc GetOrder(GetOrderRequest) returns (OrderResponse);
+  rpc CreateOrder(CreateOrderRequest) returns (OrderResponse);
+  rpc ChangeStatus(ChangeStatusRequest) returns (OrderResponse);
+}
+
+message GetOrderRequest {
+  int32 id = 1;
+}
+
+message CreateOrderRequest {
+  string customer = 1;
+}
+
+message ChangeStatusRequest {
+  int32 id = 1;
+  string status = 2;
+}
+
+message OrderResponse {
+  int32 id = 1;
+  string customer = 2;
+  string status = 3;
+  string error = 4;
+}

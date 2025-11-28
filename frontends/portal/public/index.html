@@ -267,7 +267,8 @@
                 <div class="intro-title">Как пользоваться</div>
                 <div class="intro-text">
                     Запусти <code>docker compose up</code>, открой этот портал и переходи по ссылкам к нужным сервисам.
-                    Каждый блок курса использует один или несколько сервисов снизу.
+                    Каждый блок курса использует один или несколько сервисов снизу. Для перехвата трафика и работы с
+                    DevTools используй Playground.
                 </div>
                 <div class="intro-tags">
                     <div class="tag">REST</div>
@@ -278,6 +279,7 @@
                     <div class="tag">Kibana</div>
                     <div class="tag">Prometheus</div>
                     <div class="tag">Grafana</div>
+                    <div class="tag">Playground</div>
                 </div>
             </section>
 
@@ -302,26 +304,46 @@
                     <div class="card">
                         <div class="card-title">
                             GraphQL API
-                            <span class="chip">Soon</span>
+                            <span class="chip">GraphQL</span>
                         </div>
                         <div class="card-text">
-                            Запросы, мутации и подписки для работы с заказами и пользователями.
+                            Запросы и мутации для работы с заказами. Встроенный GraphiQL Playground.
                         </div>
                         <div class="links">
-                            <a class="link" href="#" target="_blank">Playground</a>
+                            <a class="link" href="http://localhost:8001/graphql" target="_blank">GraphQL Playground</a>
+                            <a class="link" href="http://localhost:8001/health" target="_blank">/health</a>
                         </div>
                     </div>
 
                     <div class="card">
                         <div class="card-title">
                             gRPC Service
-                            <span class="chip">Soon</span>
+                            <span class="chip">gRPC</span>
                         </div>
                         <div class="card-text">
-                            Методы getOrder, createOrder, changeStatus. Используется в блоке по gRPC.
+                            Методы GetOrder, CreateOrder, ChangeStatus. Используется в блоке по gRPC.
                         </div>
                         <div class="links">
-                            <a class="link" href="#" target="_blank">Proto docs</a>
+                            <a class="link"
+                                href="https://github.com/yugoru/qa_kit/tree/main/services/grpc-service/proto/order.proto"
+                                target="_blank">Proto schema</a>
+                            <span class="link" style="cursor:default;">Port: 50051</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-row">
+                    <div class="card">
+                        <div class="card-title">
+                            SOAP Service
+                            <span class="chip">SOAP</span>
+                        </div>
+                        <div class="card-text">
+                            SOAP-эндпоинт для получения заказа. Подключается к той же базе данных заказов.
+                        </div>
+                        <div class="links">
+                            <a class="link" href="http://localhost:8082/?wsdl" target="_blank">WSDL</a>
+                            <a class="link" href="http://localhost:8082/health" target="_blank">/health</a>
                         </div>
                     </div>
                 </div>
@@ -336,6 +358,10 @@
                         <div class="card-text">
                             Основная база данных для заказов. Используется в заданиях по SQL и миграциям.
                         </div>
+                        <div class="links">
+                            <span class="link" style="cursor:default;">Host: localhost:5432</span>
+                            <span class="link" style="cursor:default;">DB: qa_kit, user: qa / qa</span>
+                        </div>
                     </div>
 
                     <div class="card">
@@ -348,6 +374,7 @@
                         </div>
                         <div class="links">
                             <a class="link" href="http://localhost:8081" target="_blank">Kafka UI</a>
+                            <span class="link" style="cursor:default;">Bootstrap: kafka:9092</span>
                         </div>
                     </div>
                 </div>
@@ -360,7 +387,8 @@
                             <span class="chip">Logs</span>
                         </div>
                         <div class="card-text">
-                            Анализ логов, поиск запросов, визуализация ошибок и задержек.
+                            Анализ логов, поиск запросов, визуализация ошибок и задержек. Логи контейнеров собирает
+                            Filebeat.
                         </div>
                         <div class="links">
                             <a class="link" href="http://localhost:5601" target="_blank">Kibana UI</a>
@@ -373,11 +401,29 @@
                             <span class="chip">Metrics</span>
                         </div>
                         <div class="card-text">
-                            Метрики, дашборды и алерты для блоков по observability.
+                            Метрики, дашборды и алерты для блоков по observability. Grafana логин: <code>admin /
+                                admin</code>.
                         </div>
                         <div class="links">
                             <a class="link" href="http://localhost:9090" target="_blank">Prometheus</a>
                             <a class="link" href="http://localhost:3000" target="_blank">Grafana</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sections-title">Tools & Playground</div>
+                <div class="section-row">
+                    <div class="card">
+                        <div class="card-title">
+                            QA Playground
+                            <span class="chip">DevTools</span>
+                        </div>
+                        <div class="card-text">
+                            Простая морда для REST, WebSocket и GraphQL. Открывай DevTools → Network и смотри все
+                            запросы и ответы.
+                        </div>
+                        <div class="links">
+                            <a class="link" href="http://localhost:8091" target="_blank">Open Playground</a>
                         </div>
                     </div>
                 </div>

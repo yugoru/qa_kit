@@ -86,12 +86,14 @@ services:
     ports:
       - "50051:50051"
 
-  # ---------- SOAP заглушка ----------
+  # ---------- SOAP ----------
   soap-service:
     build: ./services/soap-service
     container_name: qa_soap
     depends_on:
       - postgres
+    environment:
+      DATABASE_URL: postgresql+psycopg2://qa:qa@postgres:5432/qa_kit
     ports:
       - "8082:8080"
 
@@ -136,6 +138,53 @@ services:
       - "3000:3000"
     volumes:
       - grafana_data:/var/lib/grafana
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: qa_node_exporter
+    ports:
+      - "9100:9100"
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: qa_cadvisor
+    ports:
+      - "8083:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.17.22
+    container_name: qa_filebeat
+    user: root
+    depends_on:
+      - elasticsearch
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./infra/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+
+  graphql-api:
+    build: ./services/graphql-api
+    container_name: qa_graphql
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql+psycopg2://qa:qa@postgres:5432/qa_kit
+    ports:
+      - "8001:8000"
+
+  playground:
+    build: ./frontends/playground
+    container_name: qa_playground
+    depends_on:
+      - api-rest
+      - graphql-api
+    ports:
+      - "8091:80"
 
 volumes:
   postgres_data:

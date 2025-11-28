@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>QA Kit Playground</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --bg: #020617;
+            --card-bg: #0b1220;
+            --accent: #8b5cf6;
+            --accent-soft: rgba(139, 92, 246, 0.15);
+            --border: #1f2937;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --danger: #f97373;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #111827, #020617 60%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            padding: 24px 12px;
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 1200px;
+            background: radial-gradient(circle at top, var(--accent-soft), rgba(15, 23, 42, 0.96));
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.9);
+            padding: 18px 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            background: radial-gradient(circle at 30% 20%, #f9fafb, #8b5cf6 45%, #4c1d95 80%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: #020617;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .brand-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .brand-sub {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .hint {
+            font-size: 12px;
+            color: var(--muted);
+            max-width: 320px;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        @media (max-width: 980px) {
+            main {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 10px 11px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .chip {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.8);
+            color: var(--muted);
+        }
+
+        .card-text {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .field label {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--text);
+            padding: 6px 7px;
+            font-size: 12px;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .row {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border-radius: 999px;
+            border: 1px solid rgba(129, 140, 248, 0.9);
+            background: rgba(129, 140, 248, 0.12);
+            color: var(--text);
+            font-size: 12px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button.primary {
+            background: var(--accent);
+            border-color: transparent;
+            color: #020617;
+        }
+
+        button.danger {
+            border-color: rgba(248, 113, 113, 0.9);
+            background: rgba(248, 113, 113, 0.12);
+            color: var(--danger);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .output {
+            margin-top: 6px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.8);
+            padding: 6px 7px;
+            font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 11px;
+            max-height: 180px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .status {
+            font-size: 11px;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2px;
+        }
+
+        .status span {
+            max-width: 60%;
+        }
+
+        .status-indicator {
+            font-size: 11px;
+        }
+
+        .status-indicator.ok {
+            color: #4ade80;
+        }
+
+        .status-indicator.err {
+            color: var(--danger);
+        }
+
+        footer {
+            margin-top: 6px;
+            font-size: 11px;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shell">
+        <header>
+            <div class="brand">
+                <div class="logo">QK</div>
+                <div class="brand-text">
+                    <div class="brand-title">QA Kit Playground</div>
+                    <div class="brand-sub">REST, WebSocket и GraphQL в одном месте</div>
+                </div>
+            </div>
+            <div class="hint">
+                Открой DevTools → Network и наблюдай запросы. Этот экран создан для практики перехвата трафика, анализа
+                payload’ов и статусов.
+            </div>
+        </header>
+
+        <main>
+            <section class="card" id="rest-card">
+                <div class="card-header">
+                    <div class="card-title">REST API</div>
+                    <div class="chip">http://localhost:8000</div>
+                </div>
+                <div class="card-text">
+                    Базовые операции с заказами через HTTP. Запросы идут к FastAPI-сервису.
+                </div>
+
+                <div class="field">
+                    <label for="rest-customer">Customer</label>
+                    <input id="rest-customer" type="text" placeholder="Имя клиента">
+                </div>
+
+                <div class="row">
+                    <button class="primary" id="rest-create">POST /orders</button>
+                    <button id="rest-list">GET /orders</button>
+                </div>
+
+                <div class="field">
+                    <label for="rest-order-id">Order ID для изменения статуса</label>
+                    <input id="rest-order-id" type="number" min="1" placeholder="ID">
+                </div>
+
+                <div class="row">
+                    <select id="rest-status">
+                        <option value="paid">paid</option>
+                        <option value="shipped">shipped</option>
+                        <option value="delivered">delivered</option>
+                        <option value="cancelled">cancelled</option>
+                    </select>
+                    <button id="rest-change-status">Change status</button>
+                </div>
+
+                <div class="status">
+                    <span id="rest-status-text">Готово</span>
+                    <span id="rest-status-code" class="status-indicator"></span>
+                </div>
+
+                <div class="output" id="rest-output"></div>
+            </section>
+
+            <section class="card" id="ws-card">
+                <div class="card-header">
+                    <div class="card-title">WebSocket</div>
+                    <div class="chip">ws://localhost:8000/ws/orders</div>
+                </div>
+                <div class="card-text">
+                    Двусторонний канал: команды и события. Можно отправлять JSON и смотреть ответы и broadcast.
+                </div>
+
+                <div class="row">
+                    <button class="primary" id="ws-connect">Connect</button>
+                    <button id="ws-disconnect">Disconnect</button>
+                    <button id="ws-ping">Ping</button>
+                </div>
+
+                <div class="field">
+                    <label for="ws-payload">Payload (JSON)</label>
+                    <textarea id="ws-payload">{ "action": "create_order", "customer": "Yulia" }</textarea>
+                </div>
+
+                <div class="row">
+                    <button id="ws-send">Send JSON</button>
+                    <button class="danger" id="ws-clear-log">Clear log</button>
+                </div>
+
+                <div class="status">
+                    <span id="ws-status-text">Disconnected</span>
+                    <span id="ws-status-state" class="status-indicator err">●</span>
+                </div>
+
+                <div class="output" id="ws-output"></div>
+            </section>
+
+            <section class="card" id="graphql-card">
+                <div class="card-header">
+                    <div class="card-title">GraphQL</div>
+                    <div class="chip">http://localhost:8001/graphql</div>
+                </div>
+                <div class="card-text">
+                    Запросы и мутации к тому же домену заказов. Удобно сравнивать с REST.
+                </div>
+
+                <div class="field">
+                    <label for="gql-query">GraphQL query</label>
+                    <textarea id="gql-query">query {
+  orders {
+    id
+    customer
+    status
+  }
+}</textarea>
+                </div>
+
+                <div class="field">
+                    <label for="gql-variables">Variables (JSON, опционально)</label>
+                    <textarea id="gql-variables">{}</textarea>
+                </div>
+
+                <div class="row">
+                    <button class="primary" id="gql-run">Run</button>
+                    <button id="gql-fill-create">Template: createOrder</button>
+                </div>
+
+                <div class="status">
+                    <span id="gql-status-text">Готово</span>
+                    <span id="gql-status-code" class="status-indicator"></span>
+                </div>
+
+                <div class="output" id="gql-output"></div>
+            </section>
+        </main>
+
+        <footer>
+            <div>QA Kit • Playground для экспериментов с трафиком</div>
+            <div><a href="http://localhost:8090" target="_blank">Portal</a></div>
+        </footer>
+    </div>
+
+    <script>
+        const restCustomer = document.getElementById("rest-customer");
+        const restCreate = document.getElementById("rest-create");
+        const restList = document.getElementById("rest-list");
+        const restOrderId = document.getElementById("rest-order-id");
+        const restStatusSelect = document.getElementById("rest-status");
+        const restChangeStatus = document.getElementById("rest-change-status");
+        const restOutput = document.getElementById("rest-output");
+        const restStatusText = document.getElementById("rest-status-text");
+        const restStatusCode = document.getElementById("rest-status-code");
+
+        async function restRequest(method, path, body) {
+            restStatusText.textContent = "Выполняется...";
+            restStatusCode.textContent = "";
+            const url = "http://localhost:8000" + path;
+            try {
+                const opts = { method, headers: {} };
+                if (body) {
+                    opts.headers["Content-Type"] = "application/json";
+                    opts.body = JSON.stringify(body);
+                }
+                const res = await fetch(url, opts);
+                restStatusCode.textContent = res.status;
+                restStatusCode.className = "status-indicator " + (res.ok ? "ok" : "err");
+                let data;
+                try {
+                    data = await res.json();
+                } catch (_) {
+                    data = await res.text();
+                }
+                restOutput.textContent = typeof data === "string" ? data : JSON.stringify(data, null, 2);
+                restStatusText.textContent = res.ok ? "Успешно" : "Ошибка";
+            } catch (e) {
+                restStatusText.textContent = "Ошибка сети";
+                restStatusCode.textContent = "";
+                restStatusCode.className = "status-indicator err";
+                restOutput.textContent = String(e);
+            }
+        }
+
+        restCreate.addEventListener("click", () => {
+            const customer = restCustomer.value.trim() || "Anonymous";
+            restRequest("POST", "/orders", { customer });
+        });
+
+        restList.addEventListener("click", () => {
+            restRequest("GET", "/orders");
+        });
+
+        restChangeStatus.addEventListener("click", () => {
+            const id = restOrderId.value;
+            const status = restStatusSelect.value;
+            if (!id) {
+                restStatusText.textContent = "Укажите order id";
+                return;
+            }
+            const path = "/orders/" + encodeURIComponent(id) + "/status/" + encodeURIComponent(status);
+            restRequest("POST", path);
+        });
+
+        let ws;
+        const wsConnectBtn = document.getElementById("ws-connect");
+        const wsDisconnectBtn = document.getElementById("ws-disconnect");
+        const wsPingBtn = document.getElementById("ws-ping");
+        const wsSendBtn = document.getElementById("ws-send");
+        const wsClearBtn = document.getElementById("ws-clear-log");
+        const wsPayload = document.getElementById("ws-payload");
+        const wsOutput = document.getElementById("ws-output");
+        const wsStatusText = document.getElementById("ws-status-text");
+        const wsStatusState = document.getElementById("ws-status-state");
+
+        function wsSetState(connected) {
+            wsStatusText.textContent = connected ? "Connected" : "Disconnected";
+            wsStatusState.textContent = "●";
+            wsStatusState.className = "status-indicator " + (connected ? "ok" : "err");
+            wsConnectBtn.disabled = connected;
+            wsDisconnectBtn.disabled = !connected;
+            wsSendBtn.disabled = !connected;
+            wsPingBtn.disabled = !connected;
+        }
+
+        function wsLog(line) {
+            const now = new Date().toISOString();
+            wsOutput.textContent += "[" + now + "] " + line + "\n";
+            wsOutput.scrollTop = wsOutput.scrollHeight;
+        }
+
+        wsConnectBtn.addEventListener("click", () => {
+            if (ws && ws.readyState === WebSocket.OPEN) return;
+            ws = new WebSocket("ws://localhost:8000/ws/orders");
+            wsSetState(false);
+            ws.addEventListener("open", () => {
+                wsSetState(true);
+                wsLog("CONNECTED");
+            });
+            ws.addEventListener("close", () => {
+                wsSetState(false);
+                wsLog("CLOSED");
+            });
+            ws.addEventListener("error", () => {
+                wsSetState(false);
+                wsLog("ERROR");
+            });
+            ws.addEventListener("message", (event) => {
+                wsLog("RECV: " + event.data);
+            });
+        });
+
+        wsDisconnectBtn.addEventListener("click", () => {
+            if (ws) {
+                ws.close();
+            }
+        });
+
+        wsPingBtn.addEventListener("click", () => {
+            if (!ws || ws.readyState !== WebSocket.OPEN) return;
+            const payload = JSON.stringify({ action: "ping" });
+            ws.send(payload);
+            wsLog("SEND: " + payload);
+        });
+
+        wsSendBtn.addEventListener("click", () => {
+            if (!ws || ws.readyState !== WebSocket.OPEN) return;
+            const text = wsPayload.value;
+            ws.send(text);
+            wsLog("SEND: " + text);
+        });
+
+        wsClearBtn.addEventListener("click", () => {
+            wsOutput.textContent = "";
+        });
+
+        const gqlQuery = document.getElementById("gql-query");
+        const gqlVars = document.getElementById("gql-variables");
+        const gqlRun = document.getElementById("gql-run");
+        const gqlFillCreate = document.getElementById("gql-fill-create");
+        const gqlOutput = document.getElementById("gql-output");
+        const gqlStatusText = document.getElementById("gql-status-text");
+        const gqlStatusCode = document.getElementById("gql-status-code");
+
+        gqlRun.addEventListener("click", async () => {
+            gqlStatusText.textContent = "Выполняется...";
+            gqlStatusCode.textContent = "";
+            const url = "http://localhost:8001/graphql";
+            let variables = {};
+            const varsText = gqlVars.value.trim();
+            if (varsText) {
+                try {
+                    variables = JSON.parse(varsText);
+                } catch (e) {
+                    gqlStatusText.textContent = "Ошибка парсинга variables";
+                    gqlOutput.textContent = String(e);
+                    gqlStatusCode.textContent = "";
+                    gqlStatusCode.className = "status-indicator err";
+                    return;
+                }
+            }
+            try {
+                const res = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        query: gqlQuery.value,
+                        variables
+                    })
+                });
+                gqlStatusCode.textContent = res.status;
+                gqlStatusCode.className = "status-indicator " + (res.ok ? "ok" : "err");
+                let data;
+                try {
+                    data = await res.json();
+                } catch (_) {
+                    data = await res.text();
+                }
+                gqlOutput.textContent = typeof data === "string" ? data : JSON.stringify(data, null, 2);
+                gqlStatusText.textContent = res.ok ? "Успешно" : "Ошибка";
+            } catch (e) {
+                gqlStatusText.textContent = "Ошибка сети";
+                gqlStatusCode.textContent = "";
+                gqlStatusCode.className = "status-indicator err";
+                gqlOutput.textContent = String(e);
+            }
+        });
+
+        gqlFillCreate.addEventListener("click", () => {
+            gqlQuery.value = "mutation CreateOrder($customer: String!) {\n  createOrder(customer: $customer) {\n    id\n    customer\n    status\n  }\n}";
+            gqlVars.value = JSON.stringify({ customer: "Yulia" }, null, 2);
+        });
+    </script>
+</body>
+
+</html>
