@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: qa_postgres
+    environment:
+      POSTGRES_USER: qa
+      POSTGRES_PASSWORD: qa
+      POSTGRES_DB: qa_kit
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api-rest:
+    build: ./services/api-rest
+    container_name: qa_api_rest
+    environment:
+      DATABASE_URL: postgresql+psycopg2://qa:qa@postgres:5432/qa_kit
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+
+  portal:
+    build: ./frontends/portal
+    container_name: qa_portal
+    depends_on:
+      - api-rest
+    ports:
+      - "8090:80"
+
+volumes:
+  postgres_data:

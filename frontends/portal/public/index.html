@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>QA Kit Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --bg: #050816;
+            --card-bg: #111827;
+            --accent: #8b5cf6;
+            --accent-soft: rgba(139, 92, 246, 0.15);
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top left, #1f2937, #020617 55%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            padding: 32px 16px;
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 1080px;
+            background: radial-gradient(circle at top, var(--accent-soft), rgba(15, 23, 42, 0.98));
+            border-radius: 24px;
+            padding: 24px 24px 28px;
+            box-shadow: 0 24px 70px rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            background: radial-gradient(circle at 30% 20%, #f9fafb, #8b5cf6 40%, #4c1d95 80%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #020617;
+            letter-spacing: 0.08em;
+            font-size: 18px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .brand-title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+        }
+
+        .brand-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .promo {
+            font-size: 13px;
+            color: var(--text-muted);
+            max-width: 280px;
+            text-align: right;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 860px) {
+            main {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .promo {
+                text-align: left;
+            }
+        }
+
+        .intro {
+            padding: 16px 18px;
+            border-radius: 20px;
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(75, 85, 99, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .intro-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .intro-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .intro-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: rgba(31, 41, 55, 0.9);
+            border: 1px solid rgba(55, 65, 81, 0.9);
+            color: var(--text-muted);
+        }
+
+        .sections-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+        }
+
+        .section-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 10px 11px;
+            border: 1px solid rgba(55, 65, 81, 0.85);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.85);
+            border-color: rgba(129, 140, 248, 0.9);
+            background: radial-gradient(circle at top, rgba(129, 140, 248, 0.20), var(--card-bg));
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chip {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            color: var(--text-muted);
+        }
+
+        .card-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .link {
+            font-size: 12px;
+            text-decoration: none;
+            color: var(--accent);
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(55, 65, 81, 0.9);
+            transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+        }
+
+        .link:hover {
+            background: var(--accent);
+            color: #020617;
+            border-color: transparent;
+        }
+
+        footer {
+            margin-top: 6px;
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .footer-link {
+            color: var(--accent);
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shell">
+        <header>
+            <div class="brand">
+                <div class="logo">QK</div>
+                <div class="brand-text">
+                    <div class="brand-title">QA Kit</div>
+                    <div class="brand-subtitle">Hands-on playground for mid-level QA</div>
+                </div>
+            </div>
+            <div class="promo">
+                Практический стенд для тестировщиков: REST, gRPC, GraphQL, брокеры сообщений, логи, метрики и многое
+                другое.
+            </div>
+        </header>
+
+        <main>
+            <section class="intro">
+                <div class="intro-title">Как пользоваться</div>
+                <div class="intro-text">
+                    Запусти <code>docker compose up</code>, открой этот портал и переходи по ссылкам к нужным сервисам.
+                    Каждый блок курса использует один или несколько сервисов снизу.
+                </div>
+                <div class="intro-tags">
+                    <div class="tag">REST</div>
+                    <div class="tag">gRPC</div>
+                    <div class="tag">GraphQL</div>
+                    <div class="tag">WebSockets</div>
+                    <div class="tag">Kafka</div>
+                    <div class="tag">Kibana</div>
+                    <div class="tag">Prometheus</div>
+                    <div class="tag">Grafana</div>
+                </div>
+            </section>
+
+            <section>
+                <div class="sections-title">Core API</div>
+                <div class="section-row">
+                    <div class="card">
+                        <div class="card-title">
+                            REST API
+                            <span class="chip">FastAPI</span>
+                        </div>
+                        <div class="card-text">
+                            Основное приложение: CRUD заказов, статусы, авторизация, WebSockets.
+                        </div>
+                        <div class="links">
+                            <a class="link" href="http://localhost:8000/docs" target="_blank">Swagger UI</a>
+                            <a class="link" href="http://localhost:8000/openapi.json" target="_blank">OpenAPI JSON</a>
+                            <a class="link" href="http://localhost:8000/health" target="_blank">/health</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            GraphQL API
+                            <span class="chip">Soon</span>
+                        </div>
+                        <div class="card-text">
+                            Запросы, мутации и подписки для работы с заказами и пользователями.
+                        </div>
+                        <div class="links">
+                            <a class="link" href="#" target="_blank">Playground</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            gRPC Service
+                            <span class="chip">Soon</span>
+                        </div>
+                        <div class="card-text">
+                            Методы getOrder, createOrder, changeStatus. Используется в блоке по gRPC.
+                        </div>
+                        <div class="links">
+                            <a class="link" href="#" target="_blank">Proto docs</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sections-title">Data & Messaging</div>
+                <div class="section-row">
+                    <div class="card">
+                        <div class="card-title">
+                            PostgreSQL
+                            <span class="chip">DB</span>
+                        </div>
+                        <div class="card-text">
+                            Основная база данных для заказов. Используется в заданиях по SQL и миграциям.
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            Kafka
+                            <span class="chip">Soon</span>
+                        </div>
+                        <div class="card-text">
+                            События заказов и платежей. Подписки, ретраи, работа с асинхронностью.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sections-title">Observability</div>
+                <div class="section-row">
+                    <div class="card">
+                        <div class="card-title">
+                            Kibana
+                            <span class="chip">Soon</span>
+                        </div>
+                        <div class="card-text">
+                            Анализ логов, поиск запросов, визуализация ошибок и задержек.
+                        </div>
+                        <div class="links">
+                            <a class="link" href="#" target="_blank">Kibana UI</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            Prometheus & Grafana
+                            <span class="chip">Soon</span>
+                        </div>
+                        <div class="card-text">
+                            Метрики, дашборды и алерты для блоков по observability.
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div>QA Kit • локальный учебный стенд для тестировщиков</div>
+            <div>
+                <a class="footer-link" href="#" target="_blank">Подробнее о курсе</a>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
