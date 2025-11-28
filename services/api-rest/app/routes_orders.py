@@ -1,9 +1,12 @@
+import os
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from .database import SessionLocal
 from .models import Order
 from .schemas import OrderCreate, OrderResponse
+from .kafka_client import publish
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
@@ -30,12 +33,24 @@ ALLOWED_TRANSITIONS = {
     STATUS_CANCELLED: set(),
 }
 
+KAFKA_ORDER_TOPIC = os.getenv("KAFKA_ORDER_TOPIC", "order_events")
+
 
 def get_order_or_404(order_id: int, db: Session) -> Order:
     order = db.query(Order).filter(Order.id == order_id).first()
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
     return order
+
+
+def emit_order_event(event_type: str, order: Order):
+    payload = {
+        "type": event_type,
+        "order_id": order.id,
+        "customer": order.customer,
+        "status": order.status,
+    }
+    publish(KAFKA_ORDER_TOPIC, payload)
 
 
 def change_status(order: Order, new_status: str, db: Session) -> Order:
@@ -49,6 +64,7 @@ def change_status(order: Order, new_status: str, db: Session) -> Order:
     db.add(order)
     db.commit()
     db.refresh(order)
+    emit_order_event("order_status_changed", order)
     return order
 
 
@@ -58,6 +74,7 @@ def create_order(payload: OrderCreate, db: Session = Depends(get_db)):
     db.add(order)
     db.commit()
     db.refresh(order)
+    emit_order_event("order_created", order)
     return order
 
 

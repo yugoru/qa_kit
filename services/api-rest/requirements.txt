@@ -3,3 +3,4 @@ uvicorn[standard]==0.32.0
 pydantic==2.9.0
 SQLAlchemy==2.0.36
 psycopg2-binary==2.9.10
+kafka-python==2.0.2

@@ -14,15 +14,47 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  kafka:
+    image: redpandadata/redpanda:v24.1.9
+    container_name: qa_kafka
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp=1
+      - --memory=256M
+      - --reserve-memory=0M
+      - --node-id=0
+      - --check=false
+      - --kafka-addr=PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr=PLAINTEXT://kafka:9092
+    ports:
+      - "9092:9092"
+      - "9644:9644"
+
   api-rest:
     build: ./services/api-rest
     container_name: qa_api_rest
     environment:
       DATABASE_URL: postgresql+psycopg2://qa:qa@postgres:5432/qa_kit
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_ORDER_TOPIC: order_events
     depends_on:
       - postgres
+      - kafka
     ports:
       - "8000:8000"
+
+  worker-kafka:
+    build: ./services/worker-kafka
+    container_name: qa_worker_kafka
+    environment:
+      DATABASE_URL: postgresql+psycopg2://qa:qa@postgres:5432/qa_kit
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_ORDER_TOPIC: order_events
+    depends_on:
+      - postgres
+      - kafka
 
   portal:
     build: ./frontends/portal
@@ -31,6 +63,17 @@ services:
       - api-rest
     ports:
       - "8090:80"
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: qa_kafka_ui
+    depends_on:
+      - kafka
+    ports:
+      - "8081:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=qa-cluster
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
 
 volumes:
   postgres_data:
