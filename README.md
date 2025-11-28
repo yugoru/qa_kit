@@ -19,6 +19,9 @@
 
 Все сервисы запускаются внутри Docker и полностью изолированы — ничего не требуется устанавливать на компьютер.
 
+<p align="center">
+  <img src="promo.png" alt="QA Kit Promo" style="width:100%; max-width:980px; border-radius:12px;">
+</p>
 ---
 
 ## 🔥 Где обучаться на Middle QA Engineer
@@ -125,10 +128,6 @@ qa_kit/
   * `/deliver`
   * `/cancel`
 * Бизнес-ограничения переходов (state machine)
-
-<p align="center">
-  <img src="promo.png" alt="QA Kit Promo" style="width:100%; max-width:980px; border-radius:12px;">
-</p>
 
 ---
 
