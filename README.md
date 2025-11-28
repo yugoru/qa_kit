@@ -26,15 +26,12 @@
 QA Kit — учебный стенд, который используется в полном курсе подготовки Middle QA.
 
 ### 🇷🇺 Курс с оплатой в рублях
-
 [https://ermita.one/courses/inzhener-po-testirovaniju-middle/](https://ermita.one/courses/inzhener-po-testirovaniju-middle/)
 
 ### 🇪🇺 Курс с оплатой в евро
-
 [https://gradebuilder.tech/courses/inzhener-po-testirovaniju-middle/](https://gradebuilder.tech/courses/inzhener-po-testirovaniju-middle/)
 
 ### 📣 Telegram-канал проекта
-
 [https://t.me/qahacking](https://t.me/qahacking)
 
 ---
@@ -42,24 +39,20 @@ QA Kit — учебный стенд, который используется в
 # 🚀 Быстрый старт
 
 ## 1. Установите Docker Desktop
-
 [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
 
 ## 2. Клонируйте репозиторий
-
 ```
 git clone https://github.com/<your-username>/qa_kit.git
 cd qa_kit
 ```
 
 ## 3. Запуск лаборатории
-
 ```
 docker compose up --build
 ```
 
 ## 4. Откройте портал
-
 [http://localhost:8090](http://localhost:8090)
 
 Портал содержит ссылки на все доступные сервисы:
@@ -132,6 +125,10 @@ qa_kit/
   * `/deliver`
   * `/cancel`
 * Бизнес-ограничения переходов (state machine)
+
+<p align="center">
+  <img src="promo.png" alt="QA Kit Promo" style="width:100%; max-width:980px; border-radius:12px;">
+</p>
 
 ---
 
