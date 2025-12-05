@@ -10,7 +10,6 @@
 * GraphQL
 * PostgreSQL
 * Kafka
-* Mock-сервисы (WireMock)
 * Kibana (логи)
 * Prometheus / Grafana (метрики)
 * Jaeger (трейсинг)
