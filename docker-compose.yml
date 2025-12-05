@@ -78,7 +78,7 @@ services:
       - KAFKA_CLUSTERS_0_NAME=qa-cluster
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
 
-  # ---------- gRPC заглушка ----------
+  # ---------- gRPC  ----------
   grpc-service:
     build: ./services/grpc-service
     container_name: qa_grpc
@@ -86,8 +86,10 @@ services:
       - postgres
     environment:
       DATABASE_URL: postgresql+psycopg2://qa:qa@postgres:5432/qa_kit
+      PYTHONPATH: /app/app
     ports:
       - "50051:50051"
+    command: python -m app.server
 
   # ---------- SOAP ----------
   soap-service:
@@ -163,6 +165,7 @@ services:
     image: docker.elastic.co/beats/filebeat:7.17.22
     container_name: qa_filebeat
     user: root
+    command: [ "--strict.perms=false" ]
     depends_on:
       - elasticsearch
     volumes:
