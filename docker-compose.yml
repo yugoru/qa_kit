@@ -39,11 +39,13 @@ services:
       DATABASE_URL: postgresql+psycopg2://qa:qa@postgres:5432/qa_kit
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       KAFKA_ORDER_TOPIC: order_events
+      RESET_ORDERS_ON_START: "true"
     depends_on:
       - postgres
       - kafka
     ports:
       - "8000:8000"
+
 
   worker-kafka:
     build: ./services/worker-kafka
@@ -52,6 +54,7 @@ services:
       DATABASE_URL: postgresql+psycopg2://qa:qa@postgres:5432/qa_kit
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       KAFKA_ORDER_TOPIC: order_events
+      RESET_ORDERS_ON_START: "true"
     depends_on:
       - postgres
       - kafka

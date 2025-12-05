@@ -1,3 +1,4 @@
+import os
 import time
 import json
 
@@ -11,6 +12,17 @@ from .database import engine, SessionLocal
 from .routes_orders import router as orders_router, STATUS_CREATED, change_status, emit_event
 from .websocket_manager import manager
 
+RESET_ORDERS = os.getenv("RESET_ORDERS_ON_START", "false").lower() == "true"
+
+for _ in range(10):
+    try:
+        if RESET_ORDERS:
+            Order.__table__.drop(bind=engine, checkfirst=True)
+        Base.metadata.create_all(bind=engine)
+        break
+    except OperationalError:
+        time.sleep(2)
+
 
 class HealthResponse(BaseModel):
     status: str
@@ -21,14 +33,12 @@ app = FastAPI(
     version="0.1.0"
 )
 
-
 for _ in range(10):
     try:
         Base.metadata.create_all(bind=engine)
         break
     except OperationalError:
         time.sleep(2)
-
 
 Instrumentator().instrument(app).expose(app)
 
@@ -124,8 +134,8 @@ async def orders_ws(websocket: WebSocket):
                                 "action": "change_status",
                                 "error": "order_id must be integer",
                             }
-                            )
                         )
+                    )
                     continue
 
                 db = SessionLocal()
