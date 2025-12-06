@@ -192,6 +192,20 @@ services:
     ports:
       - "8091:80"
 
+  websocket-service:
+    build: ./services/websocket-service
+    container_name: qa_websocket
+    depends_on:
+      - postgres
+      - kafka
+    environment:
+      DATABASE_URL: postgresql+psycopg2://qa:qa@postgres:5432/qa_kit
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_WS_TOPIC: ws_events
+      WS_DEFAULT_CHANNEL: general
+    ports:
+      - "8002:8002"
+
 volumes:
   postgres_data:
   es_data:

@@ -336,20 +336,40 @@
                 </div>
 
                 <div class="section-row">
-                    <div class="card">
-                        <div class="card-title">
-                            SOAP Service
-                            <span class="chip">SOAP</span>
-                        </div>
-                        <div class="card-text">
-                            SOAP-эндпоинт для получения заказа. Подключается к той же базе данных заказов.
-                        </div>
-                        <div class="links">
-                            <a class="link" href="http://localhost:8082/?wsdl" target="_blank">WSDL</a>
-                            <a class="link" href="http://localhost:8082/health" target="_blank">/health</a>
-                        </div>
-                    </div>
-                </div>
+    <!-- SOAP -->
+    <div class="card">
+        <div class="card-title">
+            SOAP Service
+            <span class="chip">SOAP</span>
+        </div>
+        <div class="card-text">
+            SOAP-эндпоинт для получения заказа. Подключается к той же базе данных заказов.
+        </div>
+        <div class="links">
+            <a class="link" href="http://localhost:8082/?wsdl" target="_blank">WSDL</a>
+            <a class="link" href="http://localhost:8082/health" target="_blank">/health</a>
+        </div>
+    </div>
+
+    <!-- WebSockets -->
+    <div class="card">
+        <div class="card-title">
+            WebSocket Service
+            <span class="chip">WS</span>
+        </div>
+        <div class="card-text">
+            Двусторонний real-time API: каналы, broadcast, учебные сценарии
+            «1 сообщение → несколько ответов».
+        </div>
+        <div class="links">
+            <a class="link" href="http://localhost:8002/health" target="_blank">/health</a>
+            <a class="link" href="http://localhost:8002/stats" target="_blank">/stats</a>
+            <a class="link" href="http://localhost:8002/docs" target="_blank">Swagger UI</a>
+            <a class="link" href="ws://localhost:8002/ws?channel=general" target="_blank">WS URL</a>
+        </div>
+    </div>
+</div>
+
 
                 <div class="sections-title">Data & Messaging</div>
                 <div class="section-row">
