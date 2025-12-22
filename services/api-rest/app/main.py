@@ -1,6 +1,7 @@
 import os
 import time
 import json
+from fastapi.middleware.cors import CORSMiddleware
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from pydantic import BaseModel
@@ -39,6 +40,19 @@ for _ in range(10):
         break
     except OperationalError:
         time.sleep(2)
+
+origins = os.getenv(
+    "CORS_ALLOW_ORIGINS",
+    "http://localhost:8090,http://localhost:8091,http://127.0.0.1:8090,http://127.0.0.1:8091",
+).split(",")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[o.strip() for o in origins if o.strip()],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 Instrumentator().instrument(app).expose(app)
 
